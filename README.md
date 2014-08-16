@@ -1,3 +1,5 @@
+TurtleSense
+
 Please see http://turtlesense.org for an overview of the project. There are three devices, and each has its own embedded code
 
 Comm Head -- This is the code in the communications tower. It is the master controller of the entire system. It controls the smart sensor and the Janus phone board. Once activated, these units send out regular reports over the cell network
