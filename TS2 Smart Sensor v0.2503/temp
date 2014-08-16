@@ -1,0 +1,65 @@
+			// commands 00-02:  Off, On and Reset the ADXL sensor
+		case 0x00 :
+			ADXL_off();				// Hardware power cycle -- puts ADXL in default low power standby
+			break;
+		case 0x01 :
+			ADXL_on();				// turns the sensor on
+			break;
+		case 0x02:
+			error_code = ADXL_reset(); // does a hardware and software reset of the ADXL and puts it in standby
+			break;
+		case 0x03 :
+			msp2sleep();			// puts the microprocessor in a very low power mode
+			break;
+			// commands 04-06: Receive the settings for the smart sensor
+		case 0x04:
+			calibrate();			// Receive temperature calibration data from Comm board
+			break;
+		case 0x05 :
+			register_SS();			// Receive GPS data and ID from Comm board for a new ID
+			break;
+		case 0x06:
+			new_parameters();		// Receive new parameters from Comm board
+			break;
+			// commands 07-08: delete bin records from the smart sensor
+		case 0x07 :
+			clear_record(recCount); // Deletes the last bin record
+			break;
+		case 0x08 :
+			clear_all_records();	// Deletes all the bin records
+			break;
+			// commands 09-0C: Send sensor data
+		case 0x09 :
+			send_last_record();		// sends out the last bin record
+			break;
+		case 0x0A :
+			send_all_records();		// sends out all the bin records
+			break;
+		case 0x0B:
+			send_one_reading();		// sends one reading from the sensor registers
+			break;
+		case 0x0C:
+			stream_data();			// streams data from the sensor's FIFO stack
+			break;
+			// commands 0D-0F: Send out current status of the smart sensor
+		case 0x0D :
+			check_ID();				// sends the sensor ID to the comm board
+			break;
+		case 0x0E :
+			send_parameters();		// sends requested parameters to the comm board
+			break;
+		case 0x0F:
+			send_interrupt_report(); // sends the reason for the last interrupt (also error reporting)
+			break;
+			// commands 10+: programed run modes
+		case 0x10 :
+			resume_run_bins();		// continues a run after an interruption
+			break;
+		case 0x11 :
+			start_run_bins();		// starts a new run after resetting everything
+			break;
+		default:
+			error_code = 0x82;
+	   }
+
+		UCA0CTL1 |= UCSWRST;			// Reset the UART
