@@ -1107,7 +1107,7 @@ void manual_operation(void)
 			// Write the instruction to the ADXL to turn on
 		while(SPI_BUSY);			// Make sure no activity is happening
 		UCA1TXBUF = ADXL_WRITE;		// Tell the ADXL to read or write data
-		while(SPI_TX_BUSY)
+		while(SPI_TX_BUSY);
 		UCA1TXBUF = address;		// send the start address of the register
 		for (count = 0; count <byte_count; count++)
 			{	while(SPI_TX_BUSY);
@@ -1281,7 +1281,7 @@ void resume_run_bins(void)
 				while(SPI_RX_BUSY);				// wait for the TX buffer to empty
 				UCA1TXBUF= 0xFF;				// Send another dummy byte to push more data off the stack
 				temp1 = UCA1RXBUF;				// get the low byte of temperature byte from the previous send
-				while (SPI_RX_BUSY)				// get the second byte received
+				while (SPI_RX_BUSY);			// get the second byte received
 				temp2 = UCA1RXBUF;				// get the low byte of temperature byte from the previous send
 				temp_temp += (temp2<<8)|temp1 ;	// add the second byte * 256
 				P2OUT |= ADXL_SELECT;			// deselect
